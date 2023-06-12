@@ -2,6 +2,7 @@ import styled from "styled-components";
 import LoginImage from "../../assets/log.jpg";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Button from "../../utils/Button";
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -59,19 +60,6 @@ const ButtonContainer = styled.div`
   padding-top: 10px;
 `;
 
-const Button = styled.button`
-  padding: 15px;
-  background-color: #ef6351;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 40%;
-  border-radius: 8px;
-  text-transform: uppercase;
-  font-weight: 800%;
-`;
-
 export default function Signup() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -112,7 +100,17 @@ export default function Signup() {
             </Label>
 
             <ButtonContainer>
-              <Button>Login</Button>
+              <Button
+                bgColor={"#ef6351"}
+                bRadius={"10px"}
+                textColor={"#fff"}
+                width={"40%"}
+                cursor={"pointer"}
+                padding={"15px"}
+                onClick={handleLogin}
+              >
+                Login
+              </Button>
             </ButtonContainer>
           </form>
 
