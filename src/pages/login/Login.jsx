@@ -46,7 +46,7 @@ const Input = styled.input`
   padding: 14px;
   border-radius: 4px;
   width: 75%;
-  border-color: #8e9aaf;
+  border: 1px solid #ddd;
 `;
 
 const TextLink = styled.div`
@@ -85,6 +85,7 @@ export default function Signup() {
                 type="text"
                 name="name"
                 value={name}
+                className="remove-focus"
                 onChange={(e) => setName(e.target.value)}
               />
             </Label>
@@ -95,6 +96,7 @@ export default function Signup() {
                 type="password"
                 name="password"
                 value={password}
+                className="remove-focus"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Label>

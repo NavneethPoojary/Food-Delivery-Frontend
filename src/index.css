@@ -5,3 +5,8 @@
   font-weight: 600;
   color: #101010;
 }
+
+.remove-focus:focus{
+  outline: none;
+  border-color: #ccc;
+}
