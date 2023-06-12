@@ -70,7 +70,6 @@ export default function Signup() {
   //Signup function
   const handleSignup = (e) => {
     e.preventDefault();
-    console.log(name, email, dob, mobile, password);
   };
 
   return (
