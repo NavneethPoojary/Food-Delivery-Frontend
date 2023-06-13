@@ -10,3 +10,37 @@
   outline: none;
   border-color: #ccc;
 }
+
+/* navbar styles */
+.navbar-container{
+  width: 100%;
+  background-color: #ef6351;
+  color: #fff;
+  margin-top: -10px;
+  position: sticky;
+  top:0;
+}
+
+.items-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.logo-container {
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.link-container a{
+  padding-left: 10px;
+  padding-right: 50px;
+  color: #fff;
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
