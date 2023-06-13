@@ -104,17 +104,6 @@ export default function Signup() {
             </Label>
 
             <Label>
-              <Text>Date of Birth:</Text>
-              <Input
-                type="date"
-                name="dob"
-                value={dob}
-                className="remove-focus"
-                onChange={(e) => setDob(e.target.value)}
-              />
-            </Label>
-
-            <Label>
               <Text>Mobile Number:</Text>
               <Input
                 type="text"
