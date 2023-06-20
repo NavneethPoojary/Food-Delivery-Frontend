@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import SignupImage from "../../assets/sign.jpg";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../utils/Button";
+import { makePostRequest } from "../../Http/Http";
+import { SIGNUP } from "../../constants/apiConstant";
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -68,7 +70,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
 
   //Signup function
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
   };
 
