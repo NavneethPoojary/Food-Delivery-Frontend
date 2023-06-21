@@ -9,13 +9,11 @@ export default function App() {
   return (
     <div>
       <BrowserRouter>
-        <Navbar/>
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home/>} />
         </Routes>
-        <Footer/>
       </BrowserRouter>
     </div>
   );

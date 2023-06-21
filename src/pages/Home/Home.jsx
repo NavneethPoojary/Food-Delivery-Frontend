@@ -2,10 +2,13 @@ import React from "react";
 import { restaurent } from "../../constants/data";
 import { styled } from "styled-components";
 import { TEXT } from "../../constants/textConstants";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer/Footer";
 
 export default function Home() {
   return (
     <>
+      <Navbar/>
       <div className="des">
         <div className="heading">
           <h2 className="">Popular locations in </h2>
@@ -28,6 +31,7 @@ export default function Home() {
           </div>
         ))}
       </div>
+      <Footer/>
     </>
   );
 }
