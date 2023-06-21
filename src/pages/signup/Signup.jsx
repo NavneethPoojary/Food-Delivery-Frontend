@@ -63,7 +63,6 @@ const ButtonContainer = styled.div`
 export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
 
