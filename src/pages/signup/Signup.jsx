@@ -3,6 +3,8 @@ import SignupImage from "../../assets/sign.jpg";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../utils/Button";
+import { SIGNUP } from "../../constants/apiConstant";
+import { makePostRequest } from "../../Http/Https";
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -73,9 +75,16 @@ export default function Signup() {
   //Signup function
   const handleSignup = (e) => {
     e.preventDefault();
+
+    makePostRequest(SIGNUP, {
+      name: signUpData.name,
+      email: signUpData.email,
+      mobile_no: signUpData.mobile,
+      password: signUpData.password,
+    }).then((res) => console.log(res));
   };
 
-  const handleChange = (e) => {
+  const handleSignupChange = (e) => {
     setSignUpData({
       ...signUpData,
       [e.target.name]: e.target.value,
@@ -90,7 +99,7 @@ export default function Signup() {
         </ImageContainer>
         <FormContainer>
           <Heading>SIGN UP</Heading>
-          <form onClick={handleSignup}>
+          <form onSubmit={handleSignup}>
             <Label>
               <Text>Username:</Text>
               <Input
@@ -98,7 +107,7 @@ export default function Signup() {
                 name="name"
                 value={signUpData.name}
                 className="remove-focus"
-                onChange={handleChange}
+                onChange={handleSignupChange}
               />
             </Label>
 
@@ -109,7 +118,7 @@ export default function Signup() {
                 name="email"
                 value={signUpData.email}
                 className="remove-focus"
-                onChange={handleChange}
+                onChange={handleSignupChange}
               />
             </Label>
 
@@ -120,7 +129,7 @@ export default function Signup() {
                 name="mobile"
                 value={signUpData.mobile}
                 className="remove-focus"
-                onChange={handleChange}
+                onChange={handleSignupChange}
               />
             </Label>
 
@@ -131,7 +140,7 @@ export default function Signup() {
                 name="password"
                 value={signUpData.password}
                 className="remove-focus"
-                onChange={handleChange}
+                onChange={handleSignupChange}
               />
             </Label>
 

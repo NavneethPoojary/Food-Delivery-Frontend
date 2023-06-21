@@ -80,18 +80,10 @@ export default function Login() {
   //Login function
   const handleLogin = (e) => {
     e.preventDefault();
-    makePostRequest(
-      LOGIN,
-      {
-        email: loginData.email,
-        password: loginData.password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    makePostRequest(LOGIN, {
+      email: loginData.email,
+      password: loginData.password,
+    })
       .then((res) => {
         if (res.statusCode === SUCCESS) {
           setLoading(false);
