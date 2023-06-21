@@ -61,14 +61,25 @@ const ButtonContainer = styled.div`
 `;
 
 export default function Signup() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
+  const payload = {
+    name: "",
+    email: "",
+    mobile: "",
+    password: "",
+  };
+
+  const [signUpData, setSignUpData] = useState(payload);
 
   //Signup function
   const handleSignup = (e) => {
     e.preventDefault();
+  };
+
+  const handleChange = (e) => {
+    setSignUpData({
+      ...signUpData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -85,9 +96,9 @@ export default function Signup() {
               <Input
                 type="text"
                 name="name"
-                value={name}
+                value={signUpData.name}
                 className="remove-focus"
-                onChange={(e) => setName(e.target.value)}
+                onChange={handleChange}
               />
             </Label>
 
@@ -96,9 +107,9 @@ export default function Signup() {
               <Input
                 type="email"
                 name="email"
-                value={email}
+                value={signUpData.email}
                 className="remove-focus"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChange}
               />
             </Label>
 
@@ -107,9 +118,9 @@ export default function Signup() {
               <Input
                 type="text"
                 name="mobile"
-                value={mobile}
+                value={signUpData.mobile}
                 className="remove-focus"
-                onChange={(e) => setMobile(e.target.value)}
+                onChange={handleChange}
               />
             </Label>
 
@@ -118,9 +129,9 @@ export default function Signup() {
               <Input
                 type="password"
                 name="password"
-                value={password}
+                value={signUpData.password}
                 className="remove-focus"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChange}
               />
             </Label>
 
