@@ -3,6 +3,9 @@ import LoginImage from "../../assets/log.jpg";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../utils/Button";
+import { makePostRequest } from "../../Http/Https";
+import { LOGIN } from "../../constants/apiConstant";
+import { SUCCESS } from "../../constants/apiCodes";
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -60,14 +63,44 @@ const ButtonContainer = styled.div`
   padding-top: 10px;
 `;
 
-export default function Signup() {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login() {
+  const loginPayload = {
+    email: "",
+    password: "",
+  };
+
+  const [loginData, setLoginData] = useState(loginPayload);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const handleLoginChange = (e) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
 
   //Login function
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log(name, password);
+    makePostRequest(
+      LOGIN,
+      {
+        email: loginData.email,
+        password: loginData.password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        if (res.statusCode === SUCCESS) {
+          setLoading(false);
+          setError("");
+        }
+      })
+      .catch((err) => {
+        setError("Something went wrong");
+      });
   };
 
   return (
@@ -80,13 +113,13 @@ export default function Signup() {
           <Heading>LOGIN</Heading>
           <form onSubmit={handleLogin}>
             <Label>
-              <Text>Username:</Text>
+              <Text>Email:</Text>
               <Input
-                type="text"
-                name="name"
-                value={name}
+                type="email"
+                name="email"
+                value={loginData.email}
                 className="remove-focus"
-                onChange={(e) => setName(e.target.value)}
+                onChange={handleLoginChange}
               />
             </Label>
 
@@ -95,9 +128,9 @@ export default function Signup() {
               <Input
                 type="password"
                 name="password"
-                value={password}
+                value={loginData.password}
                 className="remove-focus"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleLoginChange}
               />
             </Label>
 
@@ -125,6 +158,7 @@ export default function Signup() {
             </span>
           </TextLink>
         </FormContainer>
+        {error && <p>{error}</p>}
       </Container>
     </SignupContainer>
   );
