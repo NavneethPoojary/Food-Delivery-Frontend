@@ -71,7 +71,6 @@ export default function Login() {
   };
 
   const [loginData, setLoginData] = useState(loginPayload);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -88,15 +87,16 @@ export default function Login() {
     })
       .then((res) => {
         if (res.status === SUCCESS) {
-          setLoading(false);
+          localStorage.setItem("jwt", res?.token);
           setError("");
-          navigate('/');
-        }else{
-          setError(res?.message);
+          navigate("/");
         }
       })
       .catch((err) => {
-        setError(err.message);
+        const {
+          response: { data },
+        } = err;
+        setError(data?.message);
       });
   };
 
@@ -152,9 +152,9 @@ export default function Login() {
                 Signup
               </Link>
             </span>
+            {error && <p className="error-message">{error}</p>}
           </TextLink>
         </FormContainer>
-        {error && <p>{error}</p>}
       </Container>
     </SignupContainer>
   );

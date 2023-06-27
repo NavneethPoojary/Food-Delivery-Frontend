@@ -72,6 +72,7 @@ export default function Signup() {
   };
   const navigate = useNavigate();
   const [signUpData, setSignUpData] = useState(payload);
+  const [error, setError] = useState("");
 
   //Signup function
   const handleSignup = (e) => {
@@ -82,11 +83,18 @@ export default function Signup() {
       email: signUpData.email,
       mobile_no: signUpData.mobile,
       password: signUpData.password,
-    }).then((res) => {
-      if (res.statusCode === SUCCESS){
-        navigate('/');
-      }
-    });
+    })
+      .then((res) => {
+        if (res.statusCode === SUCCESS) {
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        const {
+          response: { data },
+        } = err;
+        setError(data?.message);
+      });
   };
 
   const handleSignupChange = (e) => {
@@ -170,6 +178,7 @@ export default function Signup() {
                 LogIn
               </Link>
             </span>
+            {error && <p className="error-message">{error}</p>}
           </TextLink>
         </FormContainer>
       </Container>
