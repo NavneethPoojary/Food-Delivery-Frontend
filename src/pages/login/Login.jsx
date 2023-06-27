@@ -6,6 +6,7 @@ import Button from "../../utils/Button";
 import { makePostRequest } from "../../Http/Https";
 import { LOGIN } from "../../constants/apiConstant";
 import { SUCCESS } from "../../constants/apiCodes";
+import { useNavigate } from "react-router-dom";
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -72,6 +73,7 @@ export default function Login() {
   const [loginData, setLoginData] = useState(loginPayload);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -85,13 +87,16 @@ export default function Login() {
       password: loginData.password,
     })
       .then((res) => {
-        if (res.statusCode === SUCCESS) {
+        if (res.status === SUCCESS) {
           setLoading(false);
           setError("");
+          navigate('/');
+        }else{
+          setError(res?.message);
         }
       })
       .catch((err) => {
-        setError("Something went wrong");
+        setError(err.message);
       });
   };
 

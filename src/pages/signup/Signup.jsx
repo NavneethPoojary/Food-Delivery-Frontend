@@ -5,6 +5,7 @@ import { useState } from "react";
 import Button from "../../utils/Button";
 import { SIGNUP } from "../../constants/apiConstant";
 import { makePostRequest } from "../../Http/Https";
+import { useNavigate } from "react-router-dom";
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -69,7 +70,7 @@ export default function Signup() {
     mobile: "",
     password: "",
   };
-
+  const navigate = useNavigate();
   const [signUpData, setSignUpData] = useState(payload);
 
   //Signup function
@@ -81,7 +82,11 @@ export default function Signup() {
       email: signUpData.email,
       mobile_no: signUpData.mobile,
       password: signUpData.password,
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      if (res.statusCode === SUCCESS){
+        navigate('/');
+      }
+    });
   };
 
   const handleSignupChange = (e) => {
