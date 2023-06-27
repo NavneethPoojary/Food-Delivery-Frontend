@@ -72,6 +72,7 @@ export default function Signup() {
   };
   const navigate = useNavigate();
   const [signUpData, setSignUpData] = useState(payload);
+  const [response, setResponse] = useState();
   const [error, setError] = useState("");
 
   //Signup function
@@ -86,6 +87,7 @@ export default function Signup() {
     })
       .then((res) => {
         if (res.statusCode === SUCCESS) {
+          setResponse(res?.data);
           navigate("/");
         }
       })
