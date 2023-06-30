@@ -168,6 +168,9 @@ export default function Signup() {
                 cursor={"pointer"}
                 padding={"15px"}
                 onClick={handleSignup}
+                disabled={
+                  !signUpData.name || !signUpData.email || !signUpData.password
+                }
               >
                 Signup
               </Button>

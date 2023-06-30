@@ -7,9 +7,11 @@ export default function Button({
   width,
   padding,
   children,
+  disabled = false,
 }) {
   return (
     <button
+      className={disabled ? "disbled-btn" : ""}
       style={{
         backgroundColor: bgColor,
         color: textColor,
@@ -22,6 +24,7 @@ export default function Button({
         fontWeight: 700,
       }}
       onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>

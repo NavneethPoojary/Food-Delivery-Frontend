@@ -139,6 +139,7 @@ export default function Login() {
                 width={"40%"}
                 cursor={"pointer"}
                 padding={"15px"}
+                disabled={!loginData.email || !loginData.password}
               >
                 Login
               </Button>
