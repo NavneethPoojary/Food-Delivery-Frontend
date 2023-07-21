@@ -15,7 +15,7 @@ export const makePostRequest = async (endpoint, data) => {
     const response = await Instance.post(endpoint, data);
     return response.data;
   } catch (error) {
-    throw error;
+    throw new error;
   }
 };
 
@@ -25,6 +25,6 @@ export const makeGetRequest = async (endpoint, params = {}) => {
     return response.data;
   } catch (error) {
     // Handle error here
-    throw error;
+    throw new error;
   }
 };

@@ -86,7 +86,7 @@ export default function Signup() {
       password: signUpData.password,
     })
       .then((res) => {
-        if (res.statusCode === SUCCESS) {
+        if (res.statusCode === "SUCCESS") {
           setResponse(res?.data);
           navigate("/");
         }

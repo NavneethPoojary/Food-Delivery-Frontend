@@ -1,6 +1,4 @@
-import React from "react";
 import { restaurent } from "../../constants/data";
-import { styled } from "styled-components";
 import { TEXT } from "../../constants/textConstants";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer/Footer";
@@ -16,7 +14,7 @@ export default function Home() {
             alt="India flag"
             src="https://b.zmtcdn.com/images/flags_z10/in.png?output-format=webp"
             loading="lazy"
-            class="image"
+            className="image"
           ></img>
           <h2>India</h2>
         </div>
