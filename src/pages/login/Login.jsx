@@ -7,6 +7,10 @@ import { makePostRequest } from "../../Http/Https";
 import { LOGIN } from "../../constants/apiConstant";
 import { SUCCESS } from "../../constants/apiCodes";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import Loader from "../../utils/loader/Loader";
+//import Spinner from "../../utils/spinner/Spinner";
+
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -72,6 +76,7 @@ export default function Login() {
 
   const [loginData, setLoginData] = useState(loginPayload);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLoginChange = (e) => {
@@ -80,6 +85,7 @@ export default function Login() {
 
   //Login function
   const handleLogin = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     makePostRequest(LOGIN, {
       email: loginData.email,
@@ -87,21 +93,26 @@ export default function Login() {
     })
       .then((res) => {
         if (res.status === SUCCESS) {
+          toast.success('Succcesfully logged in..!')
           localStorage.setItem("jwt", res?.token);
           setError("");
-          navigate("/");
+          navigate("/User");
         }
       })
       .catch((err) => {
         const {
           response: { data },
         } = err;
+        toast.error('Failed to login')
         setError(data?.message);
       });
   };
 
+  //if (loginData) return <Spinner />;
+
   return (
     <SignupContainer>
+       {isLoading && <Loader />}
       <Container>
         <ImageContainer>
           <img src={LoginImage} width="100%" alt="Login" />
@@ -144,6 +155,7 @@ export default function Login() {
                 Login
               </Button>
             </ButtonContainer>
+            <ToastContainer />
           </form>
 
           <TextLink>

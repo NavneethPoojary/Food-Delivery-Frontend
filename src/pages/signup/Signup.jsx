@@ -6,6 +6,7 @@ import Button from "../../utils/Button";
 import { SIGNUP } from "../../constants/apiConstant";
 import { makePostRequest } from "../../Http/Https";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../utils/loader/Loader";
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -73,10 +74,12 @@ export default function Signup() {
   const navigate = useNavigate();
   const [signUpData, setSignUpData] = useState(payload);
   const [response, setResponse] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   //Signup function
   const handleSignup = (e) => {
+    setIsLoading(true);
     e.preventDefault();
 
     makePostRequest(SIGNUP, {
@@ -88,7 +91,7 @@ export default function Signup() {
       .then((res) => {
         if (res.statusCode === "SUCCESS") {
           setResponse(res?.data);
-          navigate("/");
+          navigate("/login");
         }
       })
       .catch((err) => {
@@ -108,6 +111,7 @@ export default function Signup() {
 
   return (
     <SignupContainer>
+      {isLoading && <Loader />}
       <Container>
         <ImageContainer>
           <img src={SignupImage} width="100%" alt="Login" />
