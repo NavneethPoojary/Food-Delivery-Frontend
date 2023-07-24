@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "user_name": "rakshith",
+      "email": "rak@gmail.com",
+      "mobile_no": "9535147470",
+      "password": "qwe123"
+    },
+    {
+      "id": 2,
+      "user_name": "navneeth",
+      "email": "nav@gmail.com",
+      "mobile_no": "9987654321",
+      "password": "qwe321"
+    },
+    {
+      "user_name": "virat",
+      "email": "virat@gmail.com",
+      "mobile_no": "9535147470",
+      "password": "ewq321",
+      "id": 3
+    },
+    {
+      "user_name": "nav",
+      "email": "nav@gmail.com",
+      "mobile_no": "9535147470",
+      "password": "qaz123",
+      "id": 4
+    },
+    {
+      "user_name": "nishwan",
+      "email": "nishan@gmail.com",
+      "mobile_no": "9535147470",
+      "password": "qwas123",
+      "id": 5
+    },
+    {
+      "user_name": "kotian",
+      "email": "kotian@gmail.com",
+      "mobile_no": "9535147470",
+      "password": "qwaq",
+      "id": 6
+    }
+  ]
+}

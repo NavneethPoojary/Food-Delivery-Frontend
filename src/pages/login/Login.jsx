@@ -3,13 +3,11 @@ import LoginImage from "../../assets/log.jpg";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../utils/Button";
-import { makePostRequest } from "../../Http/Https";
-import { LOGIN } from "../../constants/apiConstant";
-import { SUCCESS } from "../../constants/apiCodes";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../utils/loader/Loader";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import axios from "axios";
 //import Spinner from "../../utils/spinner/Spinner";
 
 const SignupContainer = styled.div`
@@ -69,48 +67,69 @@ const ButtonContainer = styled.div`
 `;
 
 export default function Login() {
-  const loginPayload = {
-    email: "",
-    password: "",
-  };
+  const navigate = useNavigate();
+  const { user, dispatch } = useAuthContext();
 
-  const [loginData, setLoginData] = useState(loginPayload);
+  const [loginData, setLoginData] = useState({
+    user_name: "",
+    email: "",
+    mobile_no: "", 
+    password: ""
+  });
+
+  let userDetails;
+  let presentUser;
+  let isUserPresent = false;
+  let loggedInUser
+  const { email, password} = loginData;
+
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { user, dispatch } = useAuthContext();
-  const navigate = useNavigate();
-
+  
+  
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
   //Login function
-  const handleLogin = (e) => {
-    setIsLoading(true);
+  const handleLogin = async(e) => {
     e.preventDefault();
-    makePostRequest(LOGIN, {
-      email: loginData.email,
-      password: loginData.password,
-    })
-      .then((res) => {
-        if (res.status === SUCCESS) {
-          dispatch({
-            type: "USER_SIGNUP",
-            payload: res,
-          });
-          toast.success("Succcesfully logged in..!");
-          localStorage.setItem("jwt", res?.token);
-          setError("");
-          navigate("/User");
-        }
-      })
-      .catch((err) => {
-        const {
-          response: { data },
-        } = err;
-        toast.error("Failed to login");
-        setError(data?.message);
-      });
+    try{
+      setIsLoading(true);
+      await axios.get(`http://localhost:9000/users`)
+            .then((response) => {
+                console.log("userDetails", response);
+                 userDetails = response
+            }).catch((error) => setError(error.message))
+
+            userDetails['data'].forEach(element => {
+                if(element.email!==undefined && (element.email.toLowerCase() === loginData.email.toLowerCase()) && element.password !==undefined && (element.password.toLowerCase() === loginData.password.toLowerCase())){
+                    presentUser=element;
+                    isUserPresent=true;
+                    return presentUser;
+                }
+            })
+            console.log("presentUser", presentUser);
+            if(isUserPresent){  
+            await axios.get(`http://localhost:9000/users/${presentUser.id}`)
+                .then((response) => {
+                    console.log("response",response);
+                    if(response.data!=null){
+                        loggedInUser = response.data
+                    };
+                    console.log("loggedInUser", loggedInUser);
+                })
+                setLoginData(""); 
+                navigate(`/User`);
+                
+            }else{
+                toast.error("Ooops... User not found");
+            }
+      }catch (err) {
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
   };
 
   //if (loginData) return <Spinner />;
@@ -130,7 +149,7 @@ export default function Login() {
               <Input
                 type="email"
                 name="email"
-                value={loginData.email}
+                value={email}
                 className="remove-focus"
                 onChange={handleLoginChange}
               />
@@ -141,7 +160,7 @@ export default function Login() {
               <Input
                 type="password"
                 name="password"
-                value={loginData.password}
+                value={password}
                 className="remove-focus"
                 onChange={handleLoginChange}
               />
@@ -155,7 +174,7 @@ export default function Login() {
                 width={"40%"}
                 cursor={"pointer"}
                 padding={"15px"}
-                disabled={!loginData.email || !loginData.password}
+                disabled={!email || !password}
               >
                 Login
               </Button>

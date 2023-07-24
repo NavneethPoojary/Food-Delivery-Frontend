@@ -3,10 +3,10 @@ import SignupImage from "../../assets/sign.jpg";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../utils/Button";
-import { SIGNUP } from "../../constants/apiConstant";
-import { makePostRequest } from "../../Http/Https";
+import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../utils/loader/Loader";
+import axios from "axios";
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -65,45 +65,50 @@ const ButtonContainer = styled.div`
 `;
 
 export default function Signup() {
-  const payload = {
-    name: "",
-    email: "",
-    mobile: "",
-    password: "",
-  };
   const navigate = useNavigate();
-  const [signUpData, setSignUpData] = useState(payload);
-  const [response, setResponse] = useState();
+
+  const [user, setUser] = useState({
+    user_name: "",
+    email: "",
+    mobile_no: "", 
+    password: ""
+  });
+  
+  const { user_name, email, mobile_no, password } = user;
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   //Signup function
-  const handleSignup = (e) => {
-    setIsLoading(true);
+  const handleSignup = async(e) => {
     e.preventDefault();
-
-    makePostRequest(SIGNUP, {
-      name: signUpData.name,
-      email: signUpData.email,
-      mobile_no: signUpData.mobile,
-      password: signUpData.password,
-    })
-      .then((res) => {
-        if (res.statusCode === "SUCCESS") {
-          navigate("/login");
-        }
+    try{
+      setIsLoading(true);
+      await axios.post(`http://localhost:9000/users`, user)
+      .then((response) => {
+        localStorage.setItem(
+          "login",
+          JSON.stringify({
+            userLogin: true,
+            token: response.data.access_token,
+          })
+        );
+        console.log(response)
+        toast('You are signed in successfully..!')
+        setUser("");
+        navigate("/login");
       })
-      .catch((err) => {
-        const {
-          response: { data },
-        } = err;
-        setError(data?.message);
-      });
+      .catch((error) => setError(error.response.data.message));
+    }catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignupChange = (e) => {
-    setSignUpData({
-      ...signUpData,
+    setUser({
+      ...user,
       [e.target.name]: e.target.value,
     });
   };
@@ -115,6 +120,7 @@ export default function Signup() {
         <ImageContainer>
           <img src={SignupImage} width="100%" alt="Login" />
         </ImageContainer>
+        <ToastContainer/>
         <FormContainer>
           <Heading>SIGN UP</Heading>
           <form onSubmit={handleSignup}>
@@ -122,8 +128,8 @@ export default function Signup() {
               <Text>Username:</Text>
               <Input
                 type="text"
-                name="name"
-                value={signUpData.name}
+                name="user_name"
+                value={user_name}
                 className="remove-focus"
                 onChange={handleSignupChange}
               />
@@ -134,7 +140,7 @@ export default function Signup() {
               <Input
                 type="email"
                 name="email"
-                value={signUpData.email}
+                value={email}
                 className="remove-focus"
                 onChange={handleSignupChange}
               />
@@ -144,8 +150,8 @@ export default function Signup() {
               <Text>Mobile Number:</Text>
               <Input
                 type="text"
-                name="mobile"
-                value={signUpData.mobile}
+                name="mobile_no"
+                value={mobile_no}
                 className="remove-focus"
                 onChange={handleSignupChange}
               />
@@ -156,7 +162,7 @@ export default function Signup() {
               <Input
                 type="password"
                 name="password"
-                value={signUpData.password}
+                value={password}
                 className="remove-focus"
                 onChange={handleSignupChange}
               />
@@ -172,7 +178,7 @@ export default function Signup() {
                 padding={"15px"}
                 onClick={handleSignup}
                 disabled={
-                  !signUpData.name || !signUpData.email || !signUpData.password
+                  !user_name || !email || !password
                 }
               >
                 Signup
