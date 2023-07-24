@@ -77,63 +77,69 @@ export default function Login() {
   const [loginData, setLoginData] = useState({
     user_name: "",
     email: "",
-    mobile_no: "", 
-    password: ""
+    mobile_no: "",
+    password: "",
   });
 
   let userDetails;
   let presentUser;
   let isUserPresent = false;
-  let loggedInUser
-  const { email, password} = loginData;
+  let loggedInUser;
+  const { email, password } = loginData;
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
-  
+
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
   //Login function
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    try{
+    try {
       setIsLoading(true);
-      await axios.get(`http://localhost:9000/users`)
-            .then((response) => {
-                console.log("userDetails", response);
-                 userDetails = response
-            }).catch((error) => setError(error.message))
+      await axios
+        .get(`http://localhost:9000/users`)
+        .then((response) => {
+          console.log("userDetails", response);
+          userDetails = response;
+        })
+        .catch((error) => setError(error.message));
 
-            userDetails['data'].forEach(element => {
-                if(element.email!==undefined && (element.email.toLowerCase() === loginData.email.toLowerCase()) && element.password !==undefined && (element.password.toLowerCase() === loginData.password.toLowerCase())){
-                    presentUser=element;
-                    isUserPresent=true;
-                    return presentUser;
-                }
-            })
-            console.log("presentUser", presentUser);
-            if(isUserPresent){  
-            await axios.get(`http://localhost:9000/users/${presentUser.id}`)
-                .then((response) => {
-                    console.log("response",response);
-                    if(response.data!=null){
-                        loggedInUser = response.data
-                    };
-                    console.log("loggedInUser", loggedInUser);
-                })
-                setLoginData(""); 
-                navigate(`/User`);
-                
-            }else{
-                toast.error("Ooops... User not found");
+      userDetails["data"].forEach((element) => {
+        if (
+          element.email !== undefined &&
+          element.email.toLowerCase() === loginData.email.toLowerCase() &&
+          element.password !== undefined &&
+          element.password.toLowerCase() === loginData.password.toLowerCase()
+        ) {
+          presentUser = element;
+          isUserPresent = true;
+          return presentUser;
+        }
+      });
+      console.log("presentUser", presentUser);
+      if (isUserPresent) {
+        await axios
+          .get(`http://localhost:9000/users/${presentUser.id}`)
+          .then((response) => {
+            console.log("response", response);
+            if (response.data != null) {
+              loggedInUser = response.data;
             }
-      }catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
+            console.log("loggedInUser", loggedInUser);
+          });
+        setLoginData("");
+        navigate(`/User`);
+      } else {
+        toast.error("Ooops... User not found");
       }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   //if (loginData) return <Spinner />;

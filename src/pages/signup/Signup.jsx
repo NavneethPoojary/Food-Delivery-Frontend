@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../utils/loader/Loader";
 import axios from "axios";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -70,26 +71,28 @@ const ButtonContainer = styled.div`
 
 export default function Signup() {
   const navigate = useNavigate();
+  const { dispatch } = useAuthContext();
 
   const [user, setUser] = useState({
     user_name: "",
     email: "",
-    mobile_no: "", 
-    password: ""
+    mobile_no: "",
+    password: "",
   });
-  
+
   const { user_name, email, mobile_no, password } = user;
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   //Signup function
-  const handleSignup = async(e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    try{
-      setIsLoading(true);
-      await axios.post(`http://localhost:9000/users`, user)
+    setIsLoading(true);
+    await axios
+      .post(`http://localhost:9000/users`, user)
       .then((response) => {
+        dispatch({ type: "USER_SIGNUP", payload: response.data });
         localStorage.setItem(
           "login",
           JSON.stringify({
@@ -97,17 +100,12 @@ export default function Signup() {
             token: response.data.access_token,
           })
         );
-        console.log(response)
-        toast('You are signed in successfully..!')
+        toast("You are signed in successfully..!");
         setUser("");
         navigate("/login");
       })
-      .catch((error) => setError(error.response.data.message));
-    }catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+      .catch((err) => toast.error(err.message))
+      .finally(() => setIsLoading(false));
   };
 
   const handleSignupChange = (e) => {
@@ -124,7 +122,7 @@ export default function Signup() {
         <ImageContainer>
           <img src={SignupImage} width="100%" alt="Login" />
         </ImageContainer>
-        <ToastContainer/>
+        <ToastContainer />
         <FormContainer>
           <Heading>SIGN UP</Heading>
           <form onSubmit={handleSignup}>
@@ -181,9 +179,7 @@ export default function Signup() {
                 cursor={"pointer"}
                 padding={"15px"}
                 onClick={handleSignup}
-                disabled={
-                  !user_name || !email || !password
-                }
+                disabled={!user_name || !email || !password}
               >
                 Signup
               </Button>
