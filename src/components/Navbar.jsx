@@ -24,9 +24,9 @@ const Ul = styled.ul`
 
 export default function Navbar() {
   return (
-    <Header class="header">
+    <Header>
       <Image src={Logo} alt="omnifood-logo" />
-      <nav class="main-nav">
+      <nav>
         <Ul>
           <li>
             <NavLink className="nav-link" to="/signup">

@@ -53,7 +53,7 @@ export default function Home() {
             </Description>
           </div>
 
-          <div class="hero-img-box">
+          <div>
             <Image src={HeroBanner} className="hero-img" alt="hero image" />
           </div>
         </Hero>
