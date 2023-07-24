@@ -4,6 +4,7 @@ import Login from "./pages/login/Login";
 import Home from "./pages/Home/Home";
 import Error from "./pages/ErrorPage/Error";
 import User from "./pages/login/User";
+import Navbar from "./components/Navbar";
 
 export default function App() {
   return (

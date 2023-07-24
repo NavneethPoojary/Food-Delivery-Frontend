@@ -46,6 +46,10 @@ const Label = styled.label`
 const Text = styled.span`
   display: block;
   padding-bottom: 9px;
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 500;
+  letter-spacing: 0.75px;
 `;
 
 const Input = styled.input`
@@ -183,7 +187,9 @@ export default function Login() {
           </form>
 
           <TextLink>
-            <span>
+            <span
+              style={{ fontSize: "1.3rem", fontWeight: "500", color: "#333" }}
+            >
               Dont have an account ?{" "}
               <Link to="/signup" style={{ color: "#ef6351" }}>
                 Signup
