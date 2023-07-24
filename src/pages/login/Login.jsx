@@ -7,10 +7,10 @@ import { makePostRequest } from "../../Http/Https";
 import { LOGIN } from "../../constants/apiConstant";
 import { SUCCESS } from "../../constants/apiCodes";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../utils/loader/Loader";
+import { useAuthContext } from "../../hooks/useAuthContext";
 //import Spinner from "../../utils/spinner/Spinner";
-
 
 const SignupContainer = styled.div`
   max-width: 900px;
@@ -77,6 +77,7 @@ export default function Login() {
   const [loginData, setLoginData] = useState(loginPayload);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
 
   const handleLoginChange = (e) => {
@@ -93,7 +94,11 @@ export default function Login() {
     })
       .then((res) => {
         if (res.status === SUCCESS) {
-          toast.success('Succcesfully logged in..!')
+          dispatch({
+            type: "USER_SIGNUP",
+            payload: res,
+          });
+          toast.success("Succcesfully logged in..!");
           localStorage.setItem("jwt", res?.token);
           setError("");
           navigate("/User");
@@ -103,7 +108,7 @@ export default function Login() {
         const {
           response: { data },
         } = err;
-        toast.error('Failed to login')
+        toast.error("Failed to login");
         setError(data?.message);
       });
   };
@@ -112,7 +117,7 @@ export default function Login() {
 
   return (
     <SignupContainer>
-       {isLoading && <Loader />}
+      {isLoading && <Loader />}
       <Container>
         <ImageContainer>
           <img src={LoginImage} width="100%" alt="Login" />

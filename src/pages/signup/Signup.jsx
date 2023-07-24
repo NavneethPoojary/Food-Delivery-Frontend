@@ -90,7 +90,6 @@ export default function Signup() {
     })
       .then((res) => {
         if (res.statusCode === "SUCCESS") {
-          setResponse(res?.data);
           navigate("/login");
         }
       })
