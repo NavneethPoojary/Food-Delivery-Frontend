@@ -77,25 +77,23 @@ export default function Login() {
   const [loginData, setLoginData] = useState({
     user_name: "",
     email: "",
-    mobile_no: "", 
-    password: ""
+    mobile_no: "",
+    password: "",
   });
 
-  //let userDetails;
   const { email, password} = loginData;
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  
-  
+
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
   //Login function
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    try{
+    try {
       setIsLoading(true);
       let userDetails = await axios.get(`http://localhost:9000/users`)
       let response = await userDetails.data
