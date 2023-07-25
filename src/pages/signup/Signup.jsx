@@ -90,8 +90,8 @@ export default function Signup() {
     e.preventDefault();
     try{
       setIsLoading(true);
-      await axios.post(`http://localhost:9000/users`, user)
-      dispatch({ type: "USER_SIGNUP", payload: response.data });
+      let signUpUser = await axios.post(`http://localhost:9000/users`, user)
+      dispatch({ type: "USER_SIGNUP", payload: signUpUser.data });
       toast('You are signed in successfully..!')
       setUser("");
       navigate("/login");
