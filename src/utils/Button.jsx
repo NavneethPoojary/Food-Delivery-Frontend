@@ -7,6 +7,7 @@ export default function Button({
   width,
   padding,
   children,
+  fontSize,
   disabled = false,
 }) {
   return (
@@ -22,6 +23,7 @@ export default function Button({
         border: "none",
         textTransform: "uppercase",
         fontWeight: 700,
+        fontSize:fontSize
       }}
       onClick={onClick}
       disabled={disabled}

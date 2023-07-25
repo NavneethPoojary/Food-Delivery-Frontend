@@ -1,78 +1,90 @@
 import styled from "styled-components";
-import LoginImage from "../../assets/log.jpg";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { toast } from "react-toastify";
 import Button from "../../utils/Button";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import Loader from "../../utils/loader/Loader";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useState } from "react";
 import axios from "axios";
-//import Spinner from "../../utils/spinner/Spinner";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
-const SignupContainer = styled.div`
+const Main = styled.div`
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const GridContainer = styled.div`
+  display: grid;
   max-width: 900px;
-  width: 100%;
-  margin: 50px auto;
+  margin: 90px auto;
+  grid-template-columns: 2fr 1fr;
+  border: 1px solid #ececec;
+  border-radius: 8px;
+  overflow: hidden;
 `;
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  border: 1px solid #d2e9e9;
-  border-radius: 7px;
-  padding: 30px;
-`;
-
 const ImageContainer = styled.div`
-  flex: 1;
-  padding: 10px;
+  background-image: linear-gradient(to right, #e67e22, #eea564);
+  overflow: hidden;
 `;
 
 const FormContainer = styled.div`
-  flex: 1;
-  padding: 10px;
+  width: 100%;
+  padding: 9rem;
 `;
-
-const Heading = styled.h2`
-  text-align: center;
-`;
-
-const Label = styled.label`
-  display: block;
-  padding: 10px;
-`;
-
-const Text = styled.span`
-  display: block;
-  padding-bottom: 9px;
-  font-size: 1.5rem;
-  color: #333;
-  font-weight: 500;
-  letter-spacing: 0.75px;
-`;
-
 const Input = styled.input`
-  padding: 14px;
-  border-radius: 4px;
-  width: 75%;
+  display: block;
+  padding: 1.5rem;
+  margin-top: 1.8rem;
+  width: 100%;
+  outline: none;
+  border: none;
   border: 1px solid #ddd;
+  border-radius: 7px;
 `;
 
-const TextLink = styled.div`
+const H1 = styled.h1`
   text-align: center;
-  padding-top: 10px;
+  text-transform: uppercase;
+  padding-bottom: 4rem;
+  letter-spacing: 0.6rem;
 `;
 
+const Heading = styled.span`
+  display: block;
+  text-align: center;
+  margin-top: 200px;
+  font-size: 2.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 4rem;
+  color: #ffff;
+  font-weight: 600;
+`;
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 10px;
+  align-items: center;
+  margin-top: 20px;
+  border: none;
 `;
 
-export default function Login() {
+const Redirect = styled.span`
+  display: block;
+  margin-top: 15px;
+  color: #333;
+  font-size: 15px;
+  text-align: center;
+`;
+const Login = styled(Link)`
+  text-decoration: none;
+  letter-spacing: 0.85px;
+  margin-left: 10px;
+  color: #eb984e;
+  font-weight: 700;
+  cursor: pointer;
+`;
+
+export default function Signup() {
   const navigate = useNavigate();
-  const { user, dispatch } = useAuthContext();
 
   const [loginData, setLoginData] = useState({
     user_name: "",
@@ -145,66 +157,51 @@ export default function Login() {
   //if (loginData) return <Spinner />;
 
   return (
-    <SignupContainer>
-      {isLoading && <Loader />}
-      <Container>
-        <ImageContainer>
-          <img src={LoginImage} width="100%" alt="Login" />
-        </ImageContainer>
+    <Main>
+      <GridContainer>
         <FormContainer>
-          <Heading>LOGIN</Heading>
-          <form onSubmit={handleLogin}>
-            <Label>
-              <Text>Email:</Text>
-              <Input
-                type="email"
-                name="email"
-                value={email}
-                className="remove-focus"
-                onChange={handleLoginChange}
-              />
-            </Label>
-
-            <Label>
-              <Text>Password:</Text>
-              <Input
-                type="password"
-                name="password"
-                value={password}
-                className="remove-focus"
-                onChange={handleLoginChange}
-              />
-            </Label>
+          <H1>Login</H1>
+          <form>
+            <Input
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleLoginChange}
+              placeholder="Please enter email"
+            />
+            <Input
+              type="password"
+              name="password"
+              value={password}
+              onChange={handleLoginChange}
+              placeholder="Please enter password"
+            />
 
             <ButtonContainer>
               <Button
-                bgColor={"#ef6351"}
-                bRadius={"10px"}
+                bgColor={"#e67e22"}
+                width={"50%"}
                 textColor={"#fff"}
-                width={"40%"}
                 cursor={"pointer"}
                 padding={"15px"}
+                bRadius={"8px"}
+                fontSize={"14px"}
+                onClick={handleLogin}
                 disabled={!email || !password}
               >
                 Login
               </Button>
             </ButtonContainer>
-            <ToastContainer />
           </form>
-
-          <TextLink>
-            <span
-              style={{ fontSize: "1.3rem", fontWeight: "500", color: "#333" }}
-            >
-              Dont have an account ?{" "}
-              <Link to="/signup" style={{ color: "#ef6351" }}>
-                Signup
-              </Link>
-            </span>
-            {error && <p className="error-message">{error}</p>}
-          </TextLink>
+          <Redirect>
+            Dont have an account ? <Login to={"/signup"}>Register</Login>
+          </Redirect>
         </FormContainer>
-      </Container>
-    </SignupContainer>
+
+        <ImageContainer>
+          <Heading>Welcome to Omnifood</Heading>
+        </ImageContainer>
+      </GridContainer>
+    </Main>
   );
 }
