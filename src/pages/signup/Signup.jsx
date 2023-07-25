@@ -89,20 +89,9 @@ export default function Signup() {
     try{
       setIsLoading(true);
       await axios.post(`http://localhost:9000/users`, user)
-      .then((response) => {
-        localStorage.setItem(
-          "login",
-          JSON.stringify({
-            userLogin: true,
-            token: response.data.access_token,
-          })
-        );
-        console.log(response)
-        toast('You are signed in successfully..!')
-        setUser("");
-        navigate("/login");
-      })
-      .catch((error) => setError(error.response.data.message));
+      toast('You are signed in successfully..!')
+      setUser("");
+      navigate("/login");
     }catch (err) {
       setError(err.message);
     } finally {
