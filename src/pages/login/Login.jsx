@@ -93,11 +93,7 @@ export default function Signup() {
     password: "",
   });
 
-  let userDetails;
-  let presentUser;
-  let isUserPresent = false;
-  let loggedInUser;
-  const { email, password } = loginData;
+  const { email, password} = loginData;
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -111,47 +107,24 @@ export default function Signup() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await axios
-        .get(`http://localhost:9000/users`)
-        .then((response) => {
-          console.log("userDetails", response);
-          userDetails = response;
-        })
-        .catch((error) => setError(error.message));
-
-      userDetails["data"].forEach((element) => {
-        if (
-          element.email !== undefined &&
-          element.email.toLowerCase() === loginData.email.toLowerCase() &&
-          element.password !== undefined &&
-          element.password.toLowerCase() === loginData.password.toLowerCase()
-        ) {
-          presentUser = element;
-          isUserPresent = true;
-          return presentUser;
-        }
-      });
-      console.log("presentUser", presentUser);
-      if (isUserPresent) {
-        await axios
-          .get(`http://localhost:9000/users/${presentUser.id}`)
-          .then((response) => {
-            console.log("response", response);
-            if (response.data != null) {
-              loggedInUser = response.data;
+      let userDetails = await axios.get(`http://localhost:9000/users`)
+      let response = await userDetails.data
+        response.forEach(user => {
+          if(user.email!==undefined && (user.email.toLowerCase() === loginData.email.toLowerCase()) && user.password !==undefined && (user.password.toLowerCase() === loginData.password.toLowerCase())){
+            if(user){  
+               axios.get(`http://localhost:9000/users/${user.id}`)
+              }
+              setLoginData(""); 
+              navigate(`/user`);
+            }else{
+              toast.error("Ooops... User not found");
             }
-            console.log("loggedInUser", loggedInUser);
-          });
-        setLoginData("");
-        navigate(`/User`);
-      } else {
-        toast.error("Ooops... User not found");
+          })
+      }catch(err){
+        setError(err.message);
+      }finally{
+        setIsLoading(false);
       }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   //if (loginData) return <Spinner />;

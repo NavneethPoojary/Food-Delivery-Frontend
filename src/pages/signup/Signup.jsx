@@ -103,24 +103,18 @@ export default function Signup() {
   //Signup function
   const handleSignup = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    await axios
-      .post(`http://localhost:9000/users`, user)
-      .then((response) => {
-        dispatch({ type: "USER_SIGNUP", payload: response.data });
-        localStorage.setItem(
-          "login",
-          JSON.stringify({
-            userLogin: true,
-            token: response.data.access_token,
-          })
-        );
-        toast("You are signed in successfully..!");
-        setUser("");
-        navigate("/login");
-      })
-      .catch((err) => toast.error(err.message))
-      .finally(() => setIsLoading(false));
+    try{
+      setIsLoading(true);
+      let signUpUser = await axios.post(`http://localhost:9000/users`, user)
+      dispatch({ type: "USER_SIGNUP", payload: signUpUser.data });
+      toast('You are signed in successfully..!')
+      setUser("");
+      navigate("/login");
+    }catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignupChange = (e) => {
