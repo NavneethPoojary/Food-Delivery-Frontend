@@ -110,7 +110,7 @@ export default function Signup() {
       dispatch({ type: "USER_SIGNUP", payload: signUpUser.data });
       toast('You are signed in successfully..!')
       setUser("");
-      navigate("/login");
+      navigate("/user");
     }catch (err) {
       setError(err.message);
     } finally {

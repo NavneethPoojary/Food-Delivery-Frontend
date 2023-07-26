@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import Button from "../../utils/Button";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import Loader from "../../utils/loader/Loader"
+import Loader from "../../utils/loader/Loader";
 
 const Main = styled.div`
   &::-webkit-scrollbar {
@@ -95,7 +95,7 @@ export default function Signup() {
     password: "",
   });
 
-  const { email, password} = loginData;
+  const { email, password } = loginData;
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -109,32 +109,37 @@ export default function Signup() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      let userDetails = await axios.get(`http://localhost:9000/users`)
-      let response = await userDetails.data
-        response.forEach(user => {
-          if(user.email!==undefined && (user.email.toLowerCase() === loginData.email.toLowerCase()) && user.password !==undefined && (user.password.toLowerCase() === loginData.password.toLowerCase())){
-            if(user){  
-              axios.get(`http://localhost:9000/users/${user.id}`)
-              toast.success('Logged in successfully...!')
-              setLoginData(""); 
-              navigate(`/user`);
-            }
-          }else{
-            toast.error("Ooops... User not found");
+      let userDetails = await axios.get(`http://localhost:9000/users`);
+      let response = await userDetails.data;
+      response.forEach((user) => {
+        if (
+          user.email !== undefined &&
+          user.email.toLowerCase() === loginData.email.toLowerCase() &&
+          user.password !== undefined &&
+          user.password.toLowerCase() === loginData.password.toLowerCase()
+        ) {
+          if (user) {
+            axios.get(`http://localhost:9000/users/${user.id}`);
+            toast.success("Logged in successfully...!");
+            setLoginData("");
+            navigate(`/user`);
           }
-        })
-      }catch(err){
-        setError(err.message);
-      }finally{
-        setIsLoading(false);
-      }
+        } else {
+          toast.error("Ooops... User not found");
+        }
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   //if (loginData) return <Spinner />;
 
   return (
     <Main>
-      {isLoading && <Loader/>}
+      {isLoading && <Loader />}
       <GridContainer>
         <FormContainer>
           <H1>Login</H1>
@@ -142,14 +147,14 @@ export default function Signup() {
             <Input
               type="email"
               name="email"
-              value={email || ''}
+              value={email || ""}
               onChange={handleLoginChange}
               placeholder="Please enter email"
             />
             <Input
               type="password"
               name="password"
-              value={password || ''}
+              value={password || ""}
               onChange={handleLoginChange}
               placeholder="Please enter password"
             />
@@ -169,7 +174,7 @@ export default function Signup() {
                 Login
               </Button>
             </ButtonContainer>
-            <ToastContainer/>
+            <ToastContainer />
           </form>
           <Redirect>
             Dont have an account ? <Login to={"/signup"}>Register</Login>
