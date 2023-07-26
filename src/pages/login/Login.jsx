@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Button from "../../utils/Button";
 import { useState } from "react";
 import axios from "axios";
@@ -113,14 +114,15 @@ export default function Signup() {
         response.forEach(user => {
           if(user.email!==undefined && (user.email.toLowerCase() === loginData.email.toLowerCase()) && user.password !==undefined && (user.password.toLowerCase() === loginData.password.toLowerCase())){
             if(user){  
-               axios.get(`http://localhost:9000/users/${user.id}`)
-              }
+              axios.get(`http://localhost:9000/users/${user.id}`)
+              toast.success('Logged in successfully...!')
               setLoginData(""); 
               navigate(`/user`);
-            }else{
-              toast.error("Ooops... User not found");
             }
-          })
+          }else{
+            toast.error("Ooops... User not found");
+          }
+        })
       }catch(err){
         setError(err.message);
       }finally{
@@ -167,6 +169,7 @@ export default function Signup() {
                 Login
               </Button>
             </ButtonContainer>
+            <ToastContainer/>
           </form>
           <Redirect>
             Dont have an account ? <Login to={"/signup"}>Register</Login>
