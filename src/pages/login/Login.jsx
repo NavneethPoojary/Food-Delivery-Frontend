@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import Loader from "../../utils/loader/Loader"
 
 const Main = styled.div`
   &::-webkit-scrollbar {
@@ -131,6 +132,7 @@ export default function Signup() {
 
   return (
     <Main>
+      {isLoading && <Loader/>}
       <GridContainer>
         <FormContainer>
           <H1>Login</H1>
@@ -138,14 +140,14 @@ export default function Signup() {
             <Input
               type="email"
               name="email"
-              value={email}
+              value={email || ''}
               onChange={handleLoginChange}
               placeholder="Please enter email"
             />
             <Input
               type="password"
               name="password"
-              value={password}
+              value={password || ''}
               onChange={handleLoginChange}
               placeholder="Please enter password"
             />

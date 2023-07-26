@@ -6,6 +6,7 @@ import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import Loader from "../../utils/loader/Loader";
 
 const Main = styled.div`
   &::-webkit-scrollbar {
@@ -126,6 +127,7 @@ export default function Signup() {
 
   return (
     <Main>
+      {isLoading && <Loader/>}
       <GridContainer>
         <FormContainer>
           <H1>Sign up</H1>
@@ -133,7 +135,7 @@ export default function Signup() {
             <Input
               type="text"
               name="user_name"
-              value={user_name}
+              value={user_name || ''}
               className="remove-focus"
               onChange={handleSignupChange}
               placeholder="Please enter your name"
@@ -141,21 +143,21 @@ export default function Signup() {
             <Input
               type="email"
               name="email"
-              value={email}
+              value={email || ''}
               onChange={handleSignupChange}
               placeholder="Please enter email"
             />
             <Input
               type="text"
               name="mobile_no"
-              value={mobile_no}
+              value={mobile_no || ''}
               onChange={handleSignupChange}
               placeholder="Please enter your mobile number"
             />
             <Input
               type="password"
               name="password"
-              value={password}
+              value={password || ''}
               onChange={handleSignupChange}
               placeholder="Please enter password"
             />
