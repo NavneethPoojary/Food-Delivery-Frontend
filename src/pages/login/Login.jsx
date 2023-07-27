@@ -174,7 +174,6 @@ export default function Signup() {
                 Login
               </Button>
             </ButtonContainer>
-            <ToastContainer />
           </form>
           <Redirect>
             Dont have an account ? <Login to={"/signup"}>Register</Login>
