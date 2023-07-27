@@ -115,6 +115,7 @@ export default function Signup() {
       setError(err.message);
     } finally {
       setIsLoading(false);
+      
     }
   };
 
