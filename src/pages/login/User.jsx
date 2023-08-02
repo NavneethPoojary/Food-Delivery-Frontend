@@ -11,8 +11,7 @@ export default function User() {
         `https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza`
       );
       const { data: data } = await res.data;
-      const pizza = data.recipes;
-      const modifiedPizza = pizza.splice(0, 20);
+      const modifiedPizza = data["recipes"].splice(0, 20);
       setRecipeData(modifiedPizza);
     }
     fetchPizza();
