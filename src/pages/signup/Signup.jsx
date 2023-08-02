@@ -104,18 +104,17 @@ export default function Signup() {
   //Signup function
   const handleSignup = async (e) => {
     e.preventDefault();
-    try{
+    try {
       setIsLoading(true);
-      let signUpUser = await axios.post(`http://localhost:9000/users`, user)
+      let signUpUser = await axios.post(`http://localhost:9000/users`, user);
       dispatch({ type: "USER_SIGNUP", payload: signUpUser.data });
-      toast.success('You are signed in successfully..!')
+      toast.success("You are signed in successfully..!");
       setUser("");
       navigate("/login");
-    }catch (err) {
+    } catch (err) {
       setError(err.message);
     } finally {
       setIsLoading(false);
-      
     }
   };
 
@@ -128,7 +127,7 @@ export default function Signup() {
 
   return (
     <Main>
-      {isLoading && <Loader/>}
+      {isLoading && <Loader />}
       <GridContainer>
         <FormContainer>
           <H1>Sign up</H1>
@@ -136,7 +135,7 @@ export default function Signup() {
             <Input
               type="text"
               name="user_name"
-              value={user_name || ''}
+              value={user_name || ""}
               className="remove-focus"
               onChange={handleSignupChange}
               placeholder="Please enter your name"
@@ -144,21 +143,21 @@ export default function Signup() {
             <Input
               type="email"
               name="email"
-              value={email || ''}
+              value={email || ""}
               onChange={handleSignupChange}
               placeholder="Please enter email"
             />
             <Input
               type="text"
               name="mobile_no"
-              value={mobile_no || ''}
+              value={mobile_no || ""}
               onChange={handleSignupChange}
               placeholder="Please enter your mobile number"
             />
             <Input
               type="password"
               name="password"
-              value={password || ''}
+              value={password || ""}
               onChange={handleSignupChange}
               placeholder="Please enter password"
             />
