@@ -1,6 +1,24 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import axios from "axios";
+import { Card } from "../../utils/card/Card";
+import styled from "styled-components";
+
+const CardContainer = styled.div`
+  align-items: center;
+  justify-content: center;
+  background: white;
+  overflow: hidden;
+`;
+
+const GridDisplay = styled.ul`
+  display: grid;
+  grid-template-columns: 300px 300px 300px;
+  grid-template-areas: "image" "text" "stats";
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+`
 
 export default function User() {
   const [recipeData, setRecipeData] = useState(null);
@@ -20,23 +38,14 @@ export default function User() {
   return (
     <>
       <Header />
-      <ul>
+      <GridDisplay>
         {recipeData &&
           recipeData.map((rec) => (
-            <li className="container" key={rec.id}>
-              <div className="container">
-                <img
-                  src={rec.image_url}
-                  className="hero-img"
-                  alt="hero image"
-                />
-                <p className="column">{rec.publisher}</p>
-                <p className="column">{rec.title}</p>
-                <button className="btn-block">Add to cart</button>
-              </div>
-            </li>
+            <CardContainer key={rec.id}>
+              <Card title={rec.title} date={rec.publisher} imgUrl={rec.image_url} />
+            </CardContainer>
           ))}
-      </ul>
+      </GridDisplay>
     </>
   );
 }
