@@ -2,6 +2,7 @@ import HeroBanner from "../../assets/hero.png";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
 import { Link } from "react-router-dom";
+import SkeletonPizza from "../../skeleton/SkeletonPizza";
 
 const SectionHero = styled.div`
   background-color: #fdf2e9;
