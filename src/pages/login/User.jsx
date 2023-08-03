@@ -24,16 +24,17 @@ export default function User() {
   const [recipeData, setRecipeData] = useState(null);
 
   useEffect(() => {
-    async function fetchPizza() {
-      const res = await axios.get(
-        `https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza`
-      );
-      const { data: data } = await res.data;
-      const modifiedPizza = data["recipes"].splice(0, 20);
-      setRecipeData(modifiedPizza);
-    }
-    fetchPizza();
+    getPizza();
   }, []);
+
+  async function getPizza() {
+    const res = await axios.get(
+      `https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza`
+    );
+    const { data: data } = await res.data;
+    const modifiedPizza = data["recipes"].splice(0, 20);
+    setRecipeData(modifiedPizza);
+  }
 
   return (
     <>
