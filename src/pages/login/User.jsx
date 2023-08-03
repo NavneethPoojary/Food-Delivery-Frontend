@@ -18,7 +18,7 @@ const GridDisplay = styled.ul`
   gap: 20px;
   align-items: center;
   justify-content: center;
-`
+`;
 
 export default function User() {
   const [recipeData, setRecipeData] = useState(null);
@@ -33,7 +33,10 @@ export default function User() {
     );
     const { data: data } = await res.data;
     const modifiedPizza = data["recipes"].splice(0, 20);
-    setRecipeData(modifiedPizza);
+    const filteredPizza = modifiedPizza.filter((each, index, self) => {
+      return index === self.findIndex((t) => t.title === each.title);
+    });
+    setRecipeData(filteredPizza);
   }
 
   return (
@@ -43,7 +46,11 @@ export default function User() {
         {recipeData &&
           recipeData.map((rec) => (
             <CardContainer key={rec.id}>
-              <Card title={rec.title} date={rec.publisher} imgUrl={rec.image_url} />
+              <Card
+                title={rec.title}
+                date={rec.publisher}
+                imgUrl={rec.image_url}
+              />
             </CardContainer>
           ))}
       </GridDisplay>
