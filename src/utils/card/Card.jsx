@@ -98,7 +98,7 @@ export const Card = ({ title, date, imgUrl }) => {
         </CardTextWrapper>
         <CardStatWrapper>
           <CardStats>
-            <LinkText href="#">Website</LinkText>
+            <LinkText href="#">Order Now</LinkText>
           </CardStats>
           <CardStats>
             <LinkText href="#">Add to cart</LinkText>
