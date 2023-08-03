@@ -54,8 +54,8 @@ const CardTextTitle = styled.h2`
 
 const CardTextBody = styled.p`
   color: grey;
-  font-size: 15px;
-  font-weight: 300;
+  font-size: 12px;
+  font-weight: 100;
 `;
 
 const CardStatWrapper = styled.div`
@@ -80,6 +80,8 @@ const CardStats = styled.div`
 const LinkText = styled.a`
   color: #fff;
   text-decoration: none;
+  font-size: 15px;
+  font-weight: 200;
 `;
 
 export const Card = ({ title, date, imgUrl }) => {
@@ -91,12 +93,12 @@ export const Card = ({ title, date, imgUrl }) => {
           <CardTextTitle>{title}</CardTextTitle>
           <CardTextBody>
             Lorem ipsum dolor sit amet consectetur, Ducimus, repudiandae
-            temporibus omnis illum maxime 
+            temporibus omnis illum maxime and delecios food with high ingredients.. Taste is maximum sit amet consectetur
           </CardTextBody>
         </CardTextWrapper>
         <CardStatWrapper>
           <CardStats>
-            <LinkText href="#">website</LinkText>
+            <LinkText href="#">Website</LinkText>
           </CardStats>
           <CardStats>
             <LinkText href="#">Add to cart</LinkText>
