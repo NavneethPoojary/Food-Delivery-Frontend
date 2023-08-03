@@ -3,7 +3,7 @@ import Header from "../../components/Header";
 import axios from "axios";
 import { Card } from "../../utils/card/Card";
 import styled from "styled-components";
-import SkeletonPizza from '../../skeleton/SkeletonPizza'
+import SkeletonPizza from "../../skeleton/SkeletonPizza";
 
 const CardContainer = styled.div`
   align-items: center;
@@ -23,14 +23,14 @@ const GridDisplay = styled.ul`
 
 export default function User() {
   const [recipeData, setRecipeData] = useState(null);
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getPizza();
   }, []);
 
   async function getPizza() {
-    setLoading(true)
+    setLoading(true);
     const res = await axios.get(
       `https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza`
     );
@@ -40,14 +40,19 @@ export default function User() {
       return index === self.findIndex((t) => t.title === each.title);
     });
     setRecipeData(filteredPizza);
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
     <>
       <Header />
       <GridDisplay>
-        {loading && [1, 2, 4, 5, 6, 7].map((n) => <SkeletonPizza />)}
+        {loading &&
+          [1, 2, 4, 5, 6, 7].map((n) => (
+            <div key={n}>
+              <SkeletonPizza />
+            </div>
+          ))}
         {recipeData &&
           recipeData.map((rec) => (
             <CardContainer key={rec.id}>
